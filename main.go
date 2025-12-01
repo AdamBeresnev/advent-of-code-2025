@@ -1,7 +1,27 @@
 package main
 
-import "fmt"
+import (
+	"advent-of-code/internal"
+	"log"
+	"os"
+)
 
-func main(){
-	fmt.Println("Test")
+func main() {
+	challengeNumber := os.Args[1]
+	inputFile := os.Args[2]
+	file, err := os.Open(inputFile)
+
+	if err != nil {
+		log.Fatal("Could not open file ", inputFile, "\n", err)
+	}
+	defer file.Close()
+
+	switch challengeNumber {
+	case "1":
+		internal.Challenge1(file)
+	case "2":
+		internal.Challenge2(file)
+	default:
+		log.Fatal("Incorrect challenge number specified")
+	}
 }
