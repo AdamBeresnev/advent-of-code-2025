@@ -21,14 +21,14 @@ func Day1Challenge2 (file *os.File) {
 	scanner := bufio.NewScanner(file)
 	
 	for scanner.Scan() {
-		clicks, position := clicksFromRotation(scanner.Text(), position)
+		clicks := clicksFromRotation(scanner.Text(), &position, &target)
 		result += clicks
 	}
 
 	fmt.Println(result)
 }
 
-func clicksFromRotation (rotation string, position int) (clicks int, position int) {
+func clicksFromRotation (rotation string, position *int, target *int) int {
 	var clicks int
 
 	move, err := strconv.Atoi(rotation[1:])
@@ -41,24 +41,24 @@ func clicksFromRotation (rotation string, position int) (clicks int, position in
 	
 	switch rotation[0] {
 	case 'R':
-		if position + move > 100 {
+		if *position + move > 100 {
 			clicks++
 		}
-		position += move
+		*position += move
 	case 'L':
-		if position - move < 0 && position != 0 {
+		if *position - move < 0 && *position != 0 {
 			clicks++
 		}
-		position -= move
+		*position -= move
 	default:
 		log.Fatal("Incorrect prefix on line: ", rotation)
 	}
 
-	position = (position + 100) % 100 
+	*position = (*position + 100) % 100
 	
 	if position == target {
 		clicks++
 	}
 
-	return clicks, position
+	return clicks
 }

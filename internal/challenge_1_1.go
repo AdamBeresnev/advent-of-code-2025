@@ -21,8 +21,7 @@ func Day1Challenge1 (file *os.File) {
 	scanner := bufio.NewScanner(file)
 
 	for scanner.Scan() {
-		line := scanner.Text()
-		reached, position := zeroReached(scanner.Text(), position, target)
+		reached := zeroReached(scanner.Text(), &position, &target)
 		if reached {
 			result++
 		}
@@ -31,7 +30,7 @@ func Day1Challenge1 (file *os.File) {
 	fmt.Println(result)
 }
 
-func zeroReached (rotation string, position int, target int) (reached bool, position int) {
+func zeroReached (rotation string, position *int, target *int) bool {
 	move, err := strconv.Atoi(rotation[1:])
 	if err != nil {
 		log.Fatal("Could not read line: ", rotation, "\n", err)
@@ -39,14 +38,14 @@ func zeroReached (rotation string, position int, target int) (reached bool, posi
 
 	switch rotation[0] {
 	case 'R':
-		position += move
+		*position += move
 	case 'L':
-		position -= move
+		*position -= move
 	default:
 		log.Fatal("Incorrect prefix on line: ", rotation)
 	}
 
-	position = position % 100
+	*position = *position % 100
 
-	return position == target, position
+	return *position == *target
 }

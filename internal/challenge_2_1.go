@@ -1,13 +1,17 @@
 package internal
 
-import {
-	"fmt"
+import (
+	// "bufio"
 	"bytes"
-}
+	"fmt"
+	"log"
+	"os"
+	"strconv"
+)
 
 func Day2Challenge1 (file *os.File) {
 	var result int
-	scanner := bufio.NewReader(file)
+	// scanner := bufio.NewReader(file)
 	
 	// File read logic
 
@@ -17,18 +21,18 @@ func Day2Challenge1 (file *os.File) {
 func invalidIdsInRange (idRange string) int {
 	var invalidIds int
 
-	if idRange[len(idRange) - 1:] == ',' {
+	if idRange[len(idRange) - 1:] == "," {
 		idRange = idRange[:len(idRange) - 1]
 	}
 
-	rangeSeparatorPos := bytes.IndexByte(idRange, ':')
+	rangeSeparatorPos := bytes.IndexByte([]byte(idRange), ':')
 	
-	rangeStart, err := strconv.Atoi(rotation[:rangeSeparatorPos])
+	rangeStart, err := strconv.Atoi(idRange[:rangeSeparatorPos])
 	if err != nil {
 		log.Fatal("Couldn't read starting position in range", idRange)
 	}
 
-	rangeEnd, err := strconv.Atoi(rotation[rangeSeparatorPos + 1:])
+	rangeEnd, err := strconv.Atoi(idRange[rangeSeparatorPos + 1:])
 	if err != nil {
 		log.Fatal("Couldn't read ending position in range", idRange)
 	}
@@ -65,12 +69,12 @@ func invalidIdsInRange (idRange string) int {
 }
 
 func intLength (number int) int {
-	if i == 0 {
+	if number == 0 {
 		return 1
 	}
 	count := 0
-	for i != 0 {
-		i /= 10
+	for number != 0 {
+		number /= 10
 		count++
 	}
 	return count
