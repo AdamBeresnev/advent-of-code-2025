@@ -18,9 +18,11 @@ func main() {
 
 	switch challengeNumber {
 	case "1":
-		internal.Challenge1(file)
+		internal.Day1Challenge1(file)
 	case "2":
-		internal.Challenge2(file)
+		internal.Day1Challenge2(file)
+	case "3":
+		internal.Day2Challenge1(file)
 	default:
 		log.Fatal("Incorrect challenge number specified")
 	}
