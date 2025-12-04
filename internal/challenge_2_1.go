@@ -20,47 +20,47 @@ func Day2Challenge1 (file *os.File) {
 	idRanges := idRangeList[0]
 
 	for _, idRange := range idRanges {
-		result += invalidIdSum(idRange)
+		rangeSeparatorPos := bytes.IndexByte([]byte(idRange), '-')
+		
+		start, err := strconv.Atoi(idRange[:rangeSeparatorPos])
+		if err != nil {
+			log.Fatal("Couldn't read starting position in range", idRange)
+		}
+		
+		end, err := strconv.Atoi(idRange[rangeSeparatorPos + 1:])
+		if err != nil {
+			log.Fatal("Couldn't read ending position in range", idRange)
+		}
+
+		result += invalidIdSumBySplit(start, end)
 	}
 
 	fmt.Println(result)
 }
 
-func invalidIdSum (idRange string) int {
+func invalidIdSumBySplit (start int, end int) int {
 	var sum int
 	
-	rangeSeparatorPos := bytes.IndexByte([]byte(idRange), '-')
-	
-	rangeStart, err := strconv.Atoi(idRange[:rangeSeparatorPos])
-	if err != nil {
-		log.Fatal("Couldn't read starting position in range", idRange)
-	}
-	
-	rangeEnd, err := strconv.Atoi(idRange[rangeSeparatorPos + 1:])
-	if err != nil {
-		log.Fatal("Couldn't read ending position in range", idRange)
-	}
-
-	lenRangeStart := intLength(rangeStart)
-	lenRangeEnd := intLength(rangeEnd)
+	lenStart := intLength(start)
+	lenEnd := intLength(end)
 
 	var multiplier int
 	var invalidId int
-	for i := lenRangeStart; i <= lenRangeEnd; i++ {
+	for i := lenStart; i <= lenEnd; i++ {
 		if i % 2 != 0 {
 			continue
 		}
 		
 		multiplier = int(math.Pow10(i/2))
 
-		for o := multiplier/10; o < multiplier; o++ {
-			invalidId = o * multiplier + o
+		for j := multiplier/10; j < multiplier; j++ {
+			invalidId = j * multiplier + j
 			
-			if invalidId > rangeEnd {
+			if invalidId > end {
 				break
 			}
 			
-			if invalidId >= rangeStart {
+			if invalidId >= start {
 				sum += invalidId
 			}
 		}
@@ -68,20 +68,8 @@ func invalidIdSum (idRange string) int {
 	return sum
 }
 
-// func invalidIdsInRange (idRange string) int {
+// func invalidIdsInRange (rangeStart int, rangeEnd int) int {
 // 	var invalidIds int
-
-// 	rangeSeparatorPos := bytes.IndexByte([]byte(idRange), '-')
-	
-// 	rangeStart, err := strconv.Atoi(idRange[:rangeSeparatorPos])
-// 	if err != nil {
-// 		log.Fatal("Couldn't read starting position in range", idRange)
-// 	}
-	
-// 	rangeEnd, err := strconv.Atoi(idRange[rangeSeparatorPos + 1:])
-// 	if err != nil {
-// 		log.Fatal("Couldn't read ending position in range", idRange)
-// 	}
 	
 // 	lenRangeStart := intLength(rangeStart)
 // 	lenRangeEnd := intLength(rangeEnd)
