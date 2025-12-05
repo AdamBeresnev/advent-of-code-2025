@@ -50,7 +50,7 @@ func maxJoltageOverride (bank []int) int {
 	for i := 11; i >= 1; i-- {
 		batteriesLeft = 12 - i
 		
-		for j := maxPositions[batteriesLeft - 1] + 1; j < lenBank - i + 1; j++ {
+		for j := maxPositions[batteriesLeft - 1] + 1; j <= lenBank - i; j++ {
 			if maxPositions[batteriesLeft] < 0 || bank[maxPositions[batteriesLeft]] < bank[j] {
 				maxPositions[batteriesLeft] = j
 			}
