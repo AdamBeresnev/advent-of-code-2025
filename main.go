@@ -17,18 +17,22 @@ func main() {
 	defer file.Close()
 
 	switch challengeNumber {
-	case "1":
+	case "11":
 		internal.Day1Challenge1(file)
-	case "2":
+	case "12":
 		internal.Day1Challenge2(file)
-	case "3":
+	case "21":
 		internal.Day2Challenge1(file)
-	case "4":
+	case "22":
 		internal.Day2Challenge2(file)
-	case "5":
+	case "31":
 		internal.Day3Challenge1(file)
-	case "6":
+	case "32":
 		internal.Day3Challenge2(file)
+	case "41":
+		internal.Day4Challenge1(file)
+	case "42":
+		internal.Day4Challenge2(file)
 	default:
 		log.Fatal("Incorrect challenge number specified")
 	}
