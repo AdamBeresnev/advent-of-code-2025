@@ -29,30 +29,27 @@ func movableRolls (allRolls *[]byte, gridX int, gridY int) int {
 	var result int
 	var adjacentSpaces []int
 
+	edgeCases(allRolls, 0, gridX - 1, 1)
+	edgeCases(allRolls, gridX * (gridY - 1), gridX * gridY - 1, 1)
+	edgeCases(allRolls, 0, gridX * (gridY - 1), gridX)
+	edgeCases(allRolls, gridX - 1, gridX * gridY - 1, gridX)
+
 	maxIndex := gridX * gridY - 1
 
 	for i := 0; i <= maxIndex; i++ {
 		adjacentSpaces = surroundingPositions(i, gridX)
 
-		if (*allRolls)[i] <= '.' {
-			for _, v := range adjacentSpaces {
-				if v < 0 || v > maxIndex {
-					continue
-				}
-				
-				(*allRolls)[v]--
-			}
+		if (*allRolls)[i] > '.' {
 			continue
-		}
+		}	
 
-		(*allRolls)[i] -= byte(8 - len(adjacentSpaces))
-
-		for _, v := range surroundingPositions(i, gridX) {
+		for _, v := range adjacentSpaces {
 			if v < 0 || v > maxIndex {
-				(*allRolls)[i]--
+				continue
 			}
 			
-		}		
+			(*allRolls)[v]--
+		}
 	}
 	
 	for i := 0; i <= maxIndex; i++ {
@@ -68,6 +65,12 @@ func movableRolls (allRolls *[]byte, gridX int, gridY int) int {
 	}
 
 	return result
+}
+
+func edgeCases(allRolls *[]byte, start int, end int, pace int){
+	for i := start; i <= end; i += pace {
+		(*allRolls)[i] -= 3
+	}
 }
 
 func surroundingPositions (i int, gridX int) []int {
