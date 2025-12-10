@@ -10,6 +10,7 @@ import (
 
 type Beam struct {
 	position int
+	value int
 	left *Beam
 	right *Beam
 }
@@ -33,7 +34,6 @@ func Day7Challenge2 (file *os.File) {
 		objectPositions = bytePositionArray([]byte(line), '^')
 		beamQuantumTravel(objectPositions, beams)
 	}
-	fmt.Println("time to count")
 
 	fmt.Println(timelineCounter(rootBeam))
 }
@@ -41,12 +41,18 @@ func Day7Challenge2 (file *os.File) {
 func timelineCounter (beam *Beam) int {
 	var result int
 
-	if beam.left == nil && beam.right == nil {
-		return 1
+	if beam.value != 0 {
+		return beam.value
 	}
 
-	result += timelineCounter(beam.left)
-	result += timelineCounter(beam.right)
+	if beam.left == nil && beam.right == nil {
+		result = 1
+	} else {
+		result += timelineCounter(beam.left)
+		result += timelineCounter(beam.right)
+	}
+	
+	beam.value = result 
 
 	return result
 }
