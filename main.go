@@ -45,6 +45,10 @@ func main() {
 		internal.Day7Challenge1(file)
 	case "72":
 		internal.Day7Challenge2(file)
+	case "81":
+		internal.Day8Challenge1(file, os.Args[3])
+	case "82":
+		internal.Day8Challenge2(file)
 	default:
 		log.Fatal("Incorrect challenge number specified")
 	}
